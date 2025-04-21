@@ -1,0 +1,84 @@
+### CATEGORY: EMPLOYEE CONTRACT
+**Document Type**: Employment Agreement  
+**Purpose**: Establish terms of employment between employer and employee.  
+**Governing Law**: Indian Contract Act, 1872; Industrial Disputes Act, 1947; Shops and Establishment Acts (State-specific); Payment of Wages Act, 1936.
+
+**Key Sections:**
+1. **Parties** – Identification of employer and employee.
+2. **Effective Date & Duration** – Start date, probation period, termination clauses.
+3. **Job Role & Responsibilities** – Description of designation, scope of work.
+4. **Working Hours & Leave** – Weekly working hours, holidays, earned leave, sick leave.
+5. **Salary & Benefits** – CTC, bonus, PF, gratuity, ESI, allowances.
+6. **Confidentiality & IP Rights** – Obligations to protect company IP, data privacy.
+7. **Non-Compete & Non-Solicitation** – Restrictions post-termination.
+8. **Termination Clause** – Resignation, termination notice period, misconduct provisions.
+9. **Dispute Resolution** – Indian Arbitration Act, court jurisdiction.
+10. **Miscellaneous** – Severability, entire agreement, amendments.
+
+**Standard Clauses for Analysis**:
+- “The Employee shall not engage in any other employment during the term of this contract.”
+- “The Company reserves the right to terminate this contract with one month’s notice or salary in lieu thereof.”
+
+---
+
+### CATEGORY: SERVICE CONTRACT
+**Document Type**: Service Level Agreement (SLA) / Outsourcing Agreement  
+**Purpose**: Formalize delivery of services between a service provider and client.  
+**Governing Law**: Indian Contract Act, 1872; IT Act, 2000 (for digital services); GST Act, 2017.
+
+**Key Sections:**
+1. **Parties** – Service provider and client details.
+2. **Scope of Services** – Clearly defined deliverables, tasks, exclusions.
+3. **Timeline & Milestones** – Project phases, delivery schedule.
+4. **Payment Terms** – Fee structure, advance payment, late fee clauses.
+5. **Performance Metrics** – Uptime guarantees, response times, service quality.
+6. **Change Management** – Procedures for changes in service scope.
+7. **Liability & Indemnity** – Caps on liability, indemnification for losses.
+8. **Termination Clause** – Termination rights, breach handling, refunds.
+9. **Confidentiality & Data Protection** – NDAs, GDPR (if applicable), Indian IT laws.
+10. **Dispute Resolution** – Arbitration or legal forum; often specified as Indian courts.
+
+**Sample Clauses for Analysis**:
+- “In the event of failure to deliver services as per SLA, a penalty of 2% per day will be levied.”
+- “All disputes shall be subject to the jurisdiction of the courts in New Delhi.”
+
+---
+
+### CATEGORY: SALES CONTRACT
+**Document Type**: Sale Agreement / Purchase Agreement  
+**Purpose**: Legal framework for sale of goods or assets between parties.  
+**Governing Law**: Indian Sale of Goods Act, 1930; Indian Contract Act, 1872; GST Act, 2017.
+
+**Key Sections:**
+1. **Parties** – Buyer and Seller details.
+2. **Description of Goods** – Detailed product description, quality standards.
+3. **Price & Payment Terms** – Total value, tax (GST), payment schedule.
+4. **Delivery Terms** – Shipping details, responsibility, timelines (FOB, CIF).
+5. **Inspection & Acceptance** – Return policies, defects handling.
+6. **Warranty & Guarantee** – Manufacturer warranty or performance guarantee.
+7. **Ownership Transfer** – Time and terms when title passes to buyer.
+8. **Risk of Loss** – Defines when risk transfers (often at delivery).
+9. **Force Majeure** – Exemptions for unforeseen events (flood, strike, etc.).
+10. **Dispute Resolution** – Forum for legal disputes; Indian arbitration or courts.
+
+**Typical Clauses**:
+- “The risk of loss shall pass to the Buyer upon delivery of goods at Buyer’s warehouse.”
+- “This Agreement shall be governed in accordance with the laws of India.”
+
+---
+
+### COMMON LEGAL PHRASES FOR RAG SEARCH
+- “Subject to the jurisdiction of...”
+- “Indemnify and hold harmless...”
+- “This Agreement shall come into force on the date of execution...”
+- “Nothing herein shall constitute a partnership or joint venture...”
+- “Force Majeure includes...”
+
+---
+
+### NOTE:
+All document categories should also be cross-referenced with:
+- **Stamp Act**: Varies by State.
+- **Registration Requirements**: Some contracts require registration for legal enforceability.
+- **GST Compliance**: Especially in service and sales contracts.
+
