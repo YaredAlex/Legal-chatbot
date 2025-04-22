@@ -1,9 +1,11 @@
-// Voice recording variables
-let mediaRecorder;
-
 // Handling text message submission
+let chatBoxContainer = document.getElementById("chat-box-container");
+if (chatBoxContainer)
+  chatBoxContainer.scrollTop = chatBoxContainer?.scrollHeight;
+console.log("loaded");
 document.getElementById("chat-form").addEventListener("submit", function (e) {
   e.preventDefault();
+  chatBoxContainer = document.getElementById("chat-box-container");
   const inputField = document.getElementById("chat-input");
   const loading_container = document.getElementById("loading_container");
   const message = inputField.value.trim();
@@ -15,8 +17,8 @@ document.getElementById("chat-form").addEventListener("submit", function (e) {
   //show loading
   loading_container.style.visibility = "visible";
   loading_container.style.opacity = "1";
-  console.log(loading_container.style.display);
-  // Send the text message to Flask endpoint using JSON
+  if (chatBoxContainer)
+    chatBoxContainer.scrollTop = chatBoxContainer.scrollHeight;
   fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -28,12 +30,14 @@ document.getElementById("chat-form").addEventListener("submit", function (e) {
     .then((data) => {
       // Append the assistant's reply (text & optional audio) to the chat-box
       console.log(data);
-      appendMessage("assistant", data.response, data.audio_url);
+      appendMessage("assistant", data.response, data.file_url);
     })
     .catch((error) => console.error("Error:", error))
     .finally(() => {
       loading_container.style.visibility = "hidden";
       loading_container.style.opacity = "0";
+      if (chatBoxContainer)
+        chatBoxContainer.scrollTop = chatBoxContainer.scrollHeight;
     });
 });
 
@@ -63,6 +67,4 @@ function appendMessage(sender, text, audio_url = null) {
       `;
   }
   chatBox.appendChild(messageDiv);
-  // Auto-scroll to the bottom of the chat box
-  chatBox.scrollTop = chatBox.scrollHeight;
 }
