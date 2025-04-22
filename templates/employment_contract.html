@@ -1,0 +1,122 @@
+{%extends 'template_layout.html'%}
+{%block content%}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Employment Contract Generator</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Back to Contracts
+        </a>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" data-tab="employment-editor">Fill Contract</div>
+        <div class="tab" data-tab="employment-template">Customize Template</div>
+        <div class="tab" data-tab="employment-preview">Preview</div>
+    </div>
+    
+    <div id="employment-editorTab" class="tab-content active">
+        <form id="employmentContractForm" action="{{ url_for('submit_employment_contract') }}" method="post">
+            <div class="contract-container employee-contract">
+                <h1>EMPLOYMENT AGREEMENT</h1>
+                
+                <p>This Employment Agreement is entered into as of <input type="date" id="emp_date" name="date" required>, between:</p>
+                
+                <p>Employer: <input type="text" id="employer_name" name="employer_name" placeholder="Employer name" required>, located at <input type="text" id="employer_address" name="employer_address" placeholder="Employer address" required></p>
+                
+                <p>and</p>
+                
+                <p>Employee: <input type="text" id="employee_name" name="employee_name" placeholder="Employee name" required>, residing at <input type="text" id="employee_address" name="employee_address" placeholder="Employee address" required></p>
+                
+                <ol>
+                    <li>
+                        <strong>Position and Duties</strong><br>
+                        The Employee is hired as a <input type="text" id="position_title" name="position_title" placeholder="Position title" required> and shall report to <input type="text" id="supervisor_name" name="supervisor_name" placeholder="Supervisor name" required>. The Employee agrees to perform all duties associated with this position.
+                    </li>
+                    
+                    <li>
+                        <strong>Term</strong><br>
+                        This Agreement shall commence on <input type="date" id="start_date" name="start_date" required> and continue until terminated by either party in accordance with this Agreement.
+                    </li>
+                    
+                    <li>
+                        <strong>Compensation</strong><br>
+                        The Employee shall receive a salary of <input type="text" id="salary_amount" name="salary_amount" placeholder="e.g. $50,000" required> per annum, payable 
+                        <select id="payment_schedule" name="payment_schedule" required>
+                            <option value="monthly">monthly</option>
+                            <option value="bi-weekly">bi-weekly</option>
+                            <option value="weekly">weekly</option>
+                        </select>.
+                    </li>
+                    
+                    <li>
+                        <strong>Benefits</strong><br>
+                        The Employee will be entitled to the following benefits:<br>
+                        <textarea id="benefits_list" name="benefits_list" rows="3" placeholder="List benefits here, e.g. health insurance, retirement plan, paid time off" required></textarea>
+                    </li>
+                    
+                    <li>
+                        <strong>Confidentiality</strong><br>
+                        The Employee agrees to maintain confidentiality of all proprietary information.
+                    </li>
+                    
+                    <li>
+                        <strong>Termination</strong><br>
+                        This Agreement may be terminated by either party with <input type="text" id="termination_notice_period" name="termination_notice_period" placeholder="e.g. 30 days" required> notice.
+                    </li>
+                    
+                    <li>
+                        <strong>Governing Law</strong><br>
+                        This Agreement shall be governed by the laws of <input type="text" id="jurisdiction" name="jurisdiction" placeholder="e.g. State of California" required>.
+                    </li>
+                </ol>
+                
+                <p><strong>Signed:</strong></p>
+                
+                <div class="signature-line">
+                    <div class="signature-block">
+                        <hr>
+                        <div id="employee_signature_name"></div>
+                        <p>(Employee)</p>
+                        <p>Date: ____________</p>
+                    </div>
+                    
+                    <div class="signature-block">
+                        <hr>
+                        <div id="employer_signature_name"></div>
+                        <p>(Employer)</p>
+                        <p>Date: ____________</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button type="button" class="btn btn-primary preview-btn" data-contract="employment">Preview Contract</button>
+                <button type="submit" class="btn btn-success">Submit Contract</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="employment-templateTab" class="tab-content">
+        <h4>Customize Contract Template</h4>
+        <p>Modify the HTML template below to customize your employment contract format.</p>
+        <form id="customTemplateForm" action="{{ url_for('save_employment_template') }}" method="post">
+            <textarea id="employmentCustomTemplate" name="template" class="template-textarea">{{ custom_template }}</textarea>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Save Template</button>
+                <button type="button" class="btn btn-outline-secondary reset-template-btn" data-contract="employment">Reset to Default</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="employment-previewTab" class="tab-content">
+        <div class="preview-container" id="employmentContractPreview"></div>
+        <div class="mt-3">
+            <button class="btn btn-outline-primary edit-contract-btn" data-contract="employment">Edit Contract</button>
+            <form action="{{ url_for('submit_employment_contract') }}" method="post" id="previewSubmitForm">
+                <input type="hidden" name="preview_data" id="preview_data_field">
+                <button type="submit" class="btn btn-success">Submit Contract</button>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}
