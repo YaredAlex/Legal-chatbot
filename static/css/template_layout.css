@@ -1,0 +1,11 @@
+#input-area-bottom {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 100;
+}
+
+.chat-input-container {
+  margin: 0;
+  max-width: 50%;
+}
