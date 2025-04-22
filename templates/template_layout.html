@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Contract Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contract.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/loading_style.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/template_layout.css') }}">
+
+</head>
+<body>
+    <div class="d-flex ">
+      <div class="col-6">
+ <!-- Chat messages display -->
+ {% if messages %}
+ <div id="chat-box-container">
+   {%else%}
+   <div id="chat-box-container-small">
+   {%endif%}
+   <div id="chat-box" class="flex-grow-1">
+     <!-- Render messages passed from Flask -->
+     {% for message in messages %}
+       {% if message.sender == 'assistant' %}
+         <div class="message assistant-message">
+           <div class="msg-content">
+             <p class="mb-1">{{ message.text }}</p>
+             {% if message.file_url %}
+               <div src="{{ message.file_url }}"></div>
+             {% endif %}
+           </div>
+         </div>
+       {% else %}
+         <div class="message user-message">
+           <div class="msg-content">
+             <p class="mb-1">{{ message.text }}</p>
+           </div>
+         </div>
+       {% endif %}
+     {% endfor %}
+   </div>
+   <div id="loading_container">
+     <span class="loading_span"></span>
+     <span class="loading_span"></span>
+     <span class="loading_span"></span>
+   </div>
+ </div>
+ 
+
+<div id="input-area-bottom">
+
+<form id="chat-form" >
+<div class="chat-input-container">
+<textarea
+id="chat-input"
+name="message"
+class="form-control"
+placeholder="Ask about legal documents or generate contracts..."
+autocomplete="off"
+></textarea>
+
+<div class="chat-actions">
+<div class="action-left">
+ <label class="btn btn-icon btn-attach" for="file-upload" type="button" title="Attach files">
+   <i class="fa-solid fa-plus"></i>
+ </label>
+ <input type="file" id="file-upload" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="d-none" />
+ <button class="btn btn-mode" id="analysis-mode-btn" type="button" title="Analysis Mode">
+   <i class="fa-solid fa-lightbulb"></i>  Analyze
+ </button>
+</div>
+
+<div class="action-right">
+ <button class="btn btn-send" type="submit" form="chat-form">
+   <i class="fa-solid fa-paper-plane"></i>
+ </button>
+</div>
+</div>
+
+<div id="attached-files" class="mt-2 d-none">
+<!-- Files will be displayed here dynamically -->
+</div>
+
+<div class="file-info text-muted small mt-2">
+<span id="file-count">No files attached</span>
+</div>
+</div>
+
+</form>
+</div>
+</div>
+        <!-- template editor -->
+        {%block content%}
+        {%endblock%}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/contract-scripts.js') }}"></script>
+</body>
+</html>
