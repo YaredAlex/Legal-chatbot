@@ -23,23 +23,17 @@
             <h6 class="text-muted">Conversation History</h6>
           </div>
           <ul class="history-list">
+            {% for h in history %}
             <li class="history-item">
+              <a href="{{url_for('history',id=h.id)}}" class="btn w-100 d-flex justify-content-start gap-2 align-items-center">
               <i class="fa-regular fa-file-lines me-2"></i>
-              <span>Employment Contract - April 18</span>
+              <span>{{h.conversation[0]['text']}}</span>
+            </a>
             </li>
-            <li class="history-item">
-              <i class="fa-regular fa-file-lines me-2"></i>
-              <span>Service Agreement Analysis</span>
-            </li>
-            <li class="history-item">
-              <i class="fa-regular fa-file-lines me-2"></i>
-              <span>NDA Review - Smith Corp</span>
-            </li>
+            {%endfor%}
           </ul>
           <div class="sidebar-footer">
-            <button class="btn btn-sm btn-outline-secondary w-100">
-              <i class="fa-solid fa-plus me-2"></i>New Conversation
-            </button>
+            <a href="{{ url_for('index', new='True') }}" class="btn btn-sm btn-outline-secondary w-100">New Conversation</a>
           </div>
         </div>
       </div>
@@ -58,7 +52,7 @@
                 </div>
                 <h5>Employment Contract</h5>
                 <p>Generate standard employment agreements with customizable terms</p>
-                <button class="btn btn-outline-primary">Generate</button>
+                <a href="{{ url_for('employment_contract') }}" class="btn btn-outline-primary w-100">Generate</a>
               </div>
             </div>
             <div class="col-md-4">
@@ -68,7 +62,7 @@
                 </div>
                 <h5>Sales Agreement</h5>
                 <p>Create sales contracts with appropriate terms and conditions</p>
-                <button class="btn btn-outline-primary">Generate</button>
+                <a href="{{ url_for('sales_contract') }}" class="btn btn-outline-success w-100">Generate</a>
               </div>
             </div>
             <div class="col-md-4">
@@ -78,7 +72,7 @@
                 </div>
                 <h5>Service Contract</h5>
                 <p>Draft professional service agreements with scope of work</p>
-                <button class="btn btn-outline-primary">Generate</button>
+                <a href="{{ url_for('service_contract') }}" class="btn btn-outline-danger w-100">Generate</a>
               </div>
             </div>
           </div>
@@ -98,8 +92,8 @@
                 <div class="message assistant-message">
                   <div class="msg-content">
                     <p class="mb-1">{{ message.text }}</p>
-                    {% if message.audio_url %}
-                      <audio controls src="{{ message.audio_url }}"></audio>
+                    {% if message.file_url %}
+                      <div src="{{ message.file_url }}"></div>
                     {% endif %}
                   </div>
                 </div>
