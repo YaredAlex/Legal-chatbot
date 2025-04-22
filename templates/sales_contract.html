@@ -1,0 +1,132 @@
+{%extends "template_layout.html"%}
+
+{%block content%}
+<!-- template editor -->
+<div class="container col-6">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Sales Contract Generator</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Back to Contracts
+        </a>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" data-tab="sales-editor">Fill Contract</div>
+        <div class="tab" data-tab="sales-template">Customize Template</div>
+        <div class="tab" data-tab="sales-preview">Preview</div>
+    </div>
+    
+    <div id="sales-editorTab" class="tab-content active">
+        <form id="salesContractForm" action="{{ url_for('submit_sales_contract') }}" method="post">
+            <div class="contract-container sales-contract">
+                <h1>SALES AGREEMENT</h1>
+                
+                <p>This Sales Agreement ("Agreement") is made and entered into on <input type="date" id="sales_date" name="date" required>, by and between:</p>
+                
+                <p>Seller: <input type="text" id="seller_name" name="seller_name" placeholder="Seller name" required>, located at <input type="text" id="seller_address" name="seller_address" placeholder="Seller address" required></p>
+                
+                <p>and</p>
+                
+                <p>Buyer: <input type="text" id="buyer_name" name="buyer_name" placeholder="Buyer name" required>, located at <input type="text" id="buyer_address" name="buyer_address" placeholder="Buyer address" required></p>
+                
+                <ol>
+                    <li>
+                        <strong>Product Details</strong><br>
+                        The Seller agrees to sell and the Buyer agrees to purchase the following products:
+                        <br><br>
+                        <table class="product-details">
+                            <tr>
+                                <td>Product Name:</td>
+                                <td><input type="text" id="product_name" name="product_name" placeholder="Product name" required></td>
+                            </tr>
+                            <tr>
+                                <td>Quantity:</td>
+                                <td><input type="number" id="product_quantity" name="product_quantity" min="1" placeholder="Quantity" required></td>
+                            </tr>
+                            <tr>
+                                <td>Unit Price:</td>
+                                <td><input type="text" id="unit_price" name="unit_price" class="price-input" placeholder="e.g. $99.99" required></td>
+                            </tr>
+                            <tr>
+                                <td>Total Price:</td>
+                                <td><input type="text" id="total_price" name="total_price" class="price-input" placeholder="e.g. $499.95" required></td>
+                            </tr>
+                        </table>
+                    </li>
+                    
+                    <li>
+                        <strong>Payment Terms</strong><br>
+                        Payment shall be made by <input type="text" id="payment_method" name="payment_method" placeholder="e.g. credit card, bank transfer" required> upon <input type="text" id="payment_due_date" name="payment_due_date" placeholder="e.g. delivery, within 30 days" required>.
+                    </li>
+                    
+                    <li>
+                        <strong>Delivery</strong><br>
+                        Products will be delivered to <input type="text" id="delivery_address" name="delivery_address" placeholder="Delivery address" required> by <input type="date" id="delivery_date" name="delivery_date" required>. Risk of loss passes to Buyer upon delivery.
+                    </li>
+                    
+                    <li>
+                        <strong>Warranties</strong><br>
+                        Seller warrants that the goods are free from defects and fit for purpose for a period of <input type="text" id="warranty_period" name="warranty_period" placeholder="e.g. 12 months" required>.
+                    </li>
+                    
+                    <li>
+                        <strong>Termination & Returns</strong><br>
+                        Buyer may return goods within <input type="text" id="return_period" name="return_period" placeholder="e.g. 14 days" required> under the return policy.
+                    </li>
+                    
+                    <li>
+                        <strong>Governing Law</strong><br>
+                        This Agreement shall be governed by the laws of <input type="text" id="sales_jurisdiction" name="jurisdiction" placeholder="e.g. State of California" required>.
+                    </li>
+                </ol>
+                
+                <p><strong>Signed:</strong></p>
+                
+                <div class="signature-line">
+                    <div class="signature-block">
+                        <hr>
+                        <div id="buyer_signature_name"></div>
+                        <p>(Buyer)</p>
+                        <p>Date: ____________</p>
+                    </div>
+                    
+                    <div class="signature-block">
+                        <hr>
+                        <div id="seller_signature_name"></div>
+                        <p>(Seller)</p>
+                        <p>Date: ____________</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button type="button" class="btn btn-primary preview-btn" data-contract="sales">Preview Contract</button>
+                <button type="submit" class="btn btn-success">Submit Contract</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="sales-templateTab" class="tab-content">
+        <h4>Customize Contract Template</h4>
+        <p>Modify the HTML template below to customize your sales contract format.</p>
+        <form id="customTemplateForm" action="{{ url_for('save_sales_template') }}" method="post">
+            <textarea id="salesCustomTemplate" name="template" class="template-textarea">{{ custom_template }}</textarea>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Save Template</button>
+                <button type="button" class="btn btn-outline-secondary reset-template-btn" data-contract="sales">Reset to Default</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="sales-previewTab" class="tab-content">
+        <div class="preview-container" id="salesContractPreview"></div>
+        <div class="mt-3">
+            <button class="btn btn-outline-primary edit-contract-btn" data-contract="sales">Edit Contract</button>
+            <form action="{{ url_for('submit_sales_contract') }}" method="post" id="previewSubmitForm">
+                <input type="hidden" name="preview_data" id="preview_data_field">
+                <button type="submit" class="btn btn-success">Submit Contract</button>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}
