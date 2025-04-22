@@ -144,14 +144,19 @@ html {
 
 #chat-box-container {
   flex-grow: 1;
-  overflow-y: auto;
   padding-bottom: 180px;
+  overflow-y: auto;
   background-color: #f8f9fa;
   border-radius: 8px;
   margin-left: 20px;
   max-width: 900px;
-  margin: auto;
   width: 100%;
+  margin: auto;
+}
+.chat-box-container.shrink {
+  flex-grow: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 !important;
 }
 #chat-box-container-small {
   overflow-y: auto;
@@ -210,14 +215,14 @@ html {
 
 /* Chat input styling */
 #input-area,
-#input-area-bottom {
+.fixed-bottom {
   padding: 0;
   background: transparent;
   box-shadow: none;
 }
 
-#input-area-bottom {
-  position: fixed;
+.fixed-bottom {
+  position: fixed !important;
   bottom: 24px;
   left: calc(280px + 5%);
   right: 5%;

@@ -83,7 +83,7 @@
          {% if messages %}
         <div id="chat-box-container">
           {%else%}
-          <div id="chat-box-container-small">
+          <div id="chat-box-container" class="chat-box-container shrink">
           {%endif%}
           <div id="chat-box" class="flex-grow-1">
             <!-- Render messages passed from Flask -->
@@ -115,7 +115,7 @@
         
         <!-- Chat Input: centered if no history, bottom fixed if conversation exists -->
         {% if messages %}
-<div id="input-area-bottom">
+<div id="input-area" class="fixed-bottom">
 {% else %}
 <div id="input-area">
 {% endif %}

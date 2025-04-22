@@ -1,24 +1,38 @@
-// Handling text message submission
-let chatBoxContainer = document.getElementById("chat-box-container");
-if (chatBoxContainer)
-  chatBoxContainer.scrollTop = chatBoxContainer?.scrollHeight;
-console.log("loaded");
+const chatBoxContainerScrollTop = () => {
+  let chatBoxContainer = document.getElementById("chat-box-container");
+  if (chatBoxContainer)
+    chatBoxContainer.scrollTop = chatBoxContainer?.scrollHeight;
+};
+const changeChatLayout = () => {
+  //hide card
+  let templateContainer = document.querySelector(".template-cards-container");
+  if (templateContainer && !templateContainer.classList.contains("d-none")) {
+    templateContainer.classList.add(["d-none"]);
+  }
+
+  let inputArea = document.getElementById("input-area");
+  if (inputArea && !inputArea.classList.contains("fixed-bottom"))
+    inputArea.classList.add(["fixed-bottom"]);
+
+  let chatBoxContainer = document.getElementById("chat-box-container");
+  if (chatBoxContainer && chatBoxContainer.classList.contains("shrink"))
+    chatBoxContainer.classList.remove("shrink");
+};
+chatBoxContainerScrollTop();
 document.getElementById("chat-form").addEventListener("submit", function (e) {
   e.preventDefault();
-  chatBoxContainer = document.getElementById("chat-box-container");
   const inputField = document.getElementById("chat-input");
   const loading_container = document.getElementById("loading_container");
   const message = inputField.value.trim();
   if (message === "") return;
-
+  changeChatLayout();
   // Append user's message to chat display
   appendMessage("user", message);
   inputField.value = "";
   //show loading
   loading_container.style.visibility = "visible";
   loading_container.style.opacity = "1";
-  if (chatBoxContainer)
-    chatBoxContainer.scrollTop = chatBoxContainer.scrollHeight;
+  chatBoxContainerScrollTop();
   fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -36,8 +50,7 @@ document.getElementById("chat-form").addEventListener("submit", function (e) {
     .finally(() => {
       loading_container.style.visibility = "hidden";
       loading_container.style.opacity = "0";
-      if (chatBoxContainer)
-        chatBoxContainer.scrollTop = chatBoxContainer.scrollHeight;
+      chatBoxContainerScrollTop();
     });
 });
 

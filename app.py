@@ -107,15 +107,15 @@ def history(id):
     return redirect(url_for('index'))
 
 def save_conversation(conversation):
-    if conversation.get('conversation')==None or len(conversation.get('conversation'))<1:
+    if conversation.get('conversation')== None or len(conversation.get('conversation'))<1:
         return
     chat_index = None
     chat_history = session.get('chat_history',[])
-    for index,hist in chat_history:
+    for index,hist in enumerate(chat_history):
         if conversation['id'] == hist['id']:
             chat_index = index
             break
-    if chat_index:
+    if chat_index!=None:
          chat_history[chat_index] = conversation
     else:
         chat_history.insert(0,conversation)

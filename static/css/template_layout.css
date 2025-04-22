@@ -1,4 +1,4 @@
-#input-area-bottom {
+#input-area {
   position: fixed;
   bottom: 24px;
   left: 24px;
@@ -8,4 +8,8 @@
 .chat-input-container {
   margin: 0;
   max-width: 50%;
+}
+#chat-box-container-small {
+  margin-top: 20px;
+  padding-right: 12px;
 }
