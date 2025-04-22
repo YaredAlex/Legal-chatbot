@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Contract Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contract.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Service Contract Generator</h2>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Back to Contracts
+            </a>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="service-editor">Fill Contract</div>
+            <div class="tab" data-tab="service-template">Customize Template</div>
+            <div class="tab" data-tab="service-preview">Preview</div>
+        </div>
+        
+        <div id="service-editorTab" class="tab-content active">
+            <form id="serviceContractForm" action="{{ url_for('submit_service_contract') }}" method="post">
+                <div class="contract-container service-contract">
+                    <h1>SERVICE AGREEMENT</h1>
+                    
+                    <p>This Service Agreement ("Agreement") is made and entered into on <input type="date" id="service_date" name="date" required> by and between:</p>
+                    
+                    <p>Client: <input type="text" id="client_name" name="client_name" placeholder="Client name" required>, located at <input type="text" id="client_address" name="client_address" placeholder="Client address" required></p>
+                    
+                    <p>and</p>
+                    
+                    <p>Service Provider: <input type="text" id="provider_name" name="provider_name" placeholder="Provider name" required>, located at <input type="text" id="provider_address" name="provider_address" placeholder="Provider address" required></p>
+                    
+                    <ol>
+                        <li>
+                            <strong>Scope of Services</strong><br>
+                            The Service Provider agrees to provide the following services:<br>
+                            <textarea id="service_description" name="service_description" rows="4" placeholder="Describe the services in detail" required></textarea>
+                        </li>
+                        
+                        <li>
+                            <strong>Term</strong><br>
+                            The agreement will commence on <input type="date" id="service_start_date" name="start_date" required> and remain effective until <input type="date" id="end_date" name="end_date" required>, unless terminated earlier in accordance with this Agreement.
+                        </li>
+                        
+                        <li>
+                            <strong>Payment</strong><br>
+                            The Client agrees to pay <input type="text" id="payment_amount" name="payment_amount" placeholder="e.g. $2,500" required> for the services provided, payable 
+                            <select id="service_payment_schedule" name="payment_schedule" required>
+                                <option value="in full upon completion">in full upon completion</option>
+                                <option value="50% upfront and 50% upon completion">50% upfront and 50% upon completion</option>
+                                <option value="monthly">monthly</option>
+                                <option value="weekly">weekly</option>
+                            </select>.
+                        </li>
+                        
+                        <li>
+                            <strong>Responsibilities</strong>
+                            <ul>
+                                <li>The Service Provider shall perform the services in a professional manner.</li>
+                                <li>The Client shall provide necessary access and support.</li>
+                            </ul>
+                        </li>
+                        
+                        <li>
+                            <strong>Termination</strong><br>
+                            Either party may terminate this Agreement with <input type="text" id="service_termination_notice_period" name="termination_notice_period" placeholder="e.g. 30 days" required> written notice.
+                        </li>
+                        
+                        <li>
+                            <strong>Confidentiality</strong><br>
+                            Both parties agree to maintain the confidentiality of any proprietary information.
+                        </li>
+                        
+                        <li>
+                            <strong>Governing Law</strong><br>
+                            This Agreement shall be governed by the laws of <input type="text" id="service_jurisdiction" name="jurisdiction" placeholder="e.g. State of California" required>.
+                        </li>
+                    </ol>
+                    
+                    <p><strong>Signed:</strong></p>
+                    
+                    <div class="signature-line">
+                        <div class="signature-block">
+                            <hr>
+                            <div id="client_signature_name"></div>
+                            <p>(Client)</p>
+                            <p>Date: ____________</p>
+                        </div>
+                        
+                        <div class="signature-block">
+                            <hr>
+                            <div id="provider_signature_name"></div>
+                            <p>(Service Provider)</p>
+                            <p>Date: ____________</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <button type="button" class="btn btn-primary preview-btn" data-contract="service">Preview Contract</button>
+                    <button type="submit" class="btn btn-success">Submit Contract</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="service-templateTab" class="tab-content">
+            <h4>Customize Contract Template</h4>
+            <p>Modify the HTML template below to customize your service contract format.</p>
+            <form id="customTemplateForm" action="{{ url_for('save_service_template') }}" method="post">
+                <textarea id="serviceCustomTemplate" name="template" class="template-textarea">{{ custom_template }}</textarea>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Save Template</button>
+                    <button type="button" class="btn btn-outline-secondary reset-template-btn" data-contract="service">Reset to Default</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="service-previewTab" class="tab-content">
+            <div class="preview-container" id="serviceContractPreview"></div>
+            <div class="mt-3">
+                <button class="btn btn-outline-primary edit-contract-btn" data-contract="service">Edit Contract</button>
+                <form action="{{ url_for('submit_service_contract') }}" method="post" id="previewSubmitForm">
+                    <input type="hidden" name="preview_data" id="preview_data_field">
+                    <button type="submit" class="btn btn-success">Submit Contract</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/contract-scripts.js') }}"></script>
+</body>
+</html>
