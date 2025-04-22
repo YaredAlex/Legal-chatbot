@@ -1,0 +1,196 @@
+/* Card Styles */
+.contract-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px;
+  justify-content: center;
+}
+
+.contract-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  background-color: white;
+  width: 300px;
+}
+
+.contract-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.employee-card .card-icon {
+  color: #0d6efd;
+}
+
+.sales-card .card-icon {
+  color: #198754;
+}
+
+.service-card .card-icon {
+  color: #dc3545;
+}
+
+/* Tab Styles */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  margin-right: 5px;
+}
+
+.tab.active {
+  background-color: white;
+  border-color: #dee2e6;
+  border-bottom-color: white;
+  margin-bottom: -1px;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Contract Form Styles */
+.contract-container {
+  background-color: #fff;
+  padding: 25px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.contract-container h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.contract-container input,
+.contract-container select,
+.contract-container textarea {
+  display: inline-block;
+  padding: 3px 6px;
+  margin: 0 4px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  background-color: #f8f9ff;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.sales-contract input,
+.sales-contract select,
+.sales-contract textarea {
+  border-color: #198754;
+  color: #198754;
+  background-color: #f8fff9;
+}
+
+.service-contract input,
+.service-contract select,
+.service-contract textarea {
+  border-color: #dc3545;
+  color: #dc3545;
+  background-color: #fff8f8;
+}
+
+.contract-container textarea {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.contract-container input[type="date"],
+.contract-container input[type="number"] {
+  width: 140px;
+}
+
+.contract-container input.price-input {
+  width: 100px;
+}
+
+.signature-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.signature-block {
+  width: 45%;
+  text-align: center;
+}
+
+.signature-line hr {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.template-textarea {
+  width: 100%;
+  min-height: 500px;
+  font-family: "Courier New", monospace;
+}
+
+.preview-container {
+  background-color: #f9f9f9;
+  padding: 25px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+}
+
+/* Colors for different contract types */
+.employee-contract h1,
+.employee-contract strong {
+  color: #0d6efd;
+}
+
+.sales-contract h1,
+.sales-contract strong {
+  color: #198754;
+}
+
+.service-contract h1,
+.service-contract strong {
+  color: #dc3545;
+}
+
+/* For product details table */
+.product-details {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+
+.product-details th,
+.product-details td {
+  padding: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.product-details th {
+  background-color: #f8f9fa;
+  text-align: left;
+}
