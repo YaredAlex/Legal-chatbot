@@ -173,6 +173,16 @@ html {
   animation: fadeIn 0.3s;
 }
 
+pre {
+  display: block;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow: visible;
+  white-space: break-spaces;
+  font-size: 0.875em;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
