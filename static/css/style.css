@@ -51,6 +51,8 @@ html {
   transition: background-color 0.2s;
   font-size: 14px;
 }
+.conversation-title {
+}
 
 .history-item:hover {
   background-color: #f0f0f0;
