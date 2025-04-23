@@ -1,4 +1,5 @@
 from flask import Flask,request, render_template,jsonify,session,redirect,url_for,flash
+from extractor import extract_text
 from query_llm import query_llm
 from render_pdf import render_contract_pdf
 import os
@@ -61,12 +62,18 @@ def index():
 
 @app.route('/api/chat',methods=['GET','POST'])
 def chat_llm():
-    user_message = request.json.get("message", "")
+    user_message = request.form.get('message','')
     if not user_message:
         return jsonify({"error": "Empty message"}), 400
+    file = request.files.get('file')
+    if (file):
+        file_text = extract_text(file)
+        user_message = f'''
+                        query: {user_message} analyze the document
+                        document: {file_text}
+                        '''
     ## call agent Model
     response = query_llm(user_message)
-    #check if generation is required
     generated_filename = None
     _assistant = {"text":response,'sender':'assistant'}
     if(generated_filename):
@@ -80,8 +87,7 @@ def chat_llm():
     if(generated_filename):
         _response['file_url'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
     return jsonify(_response)
-    # print(context)
-    # return render_template('index.html',messages=context)
+
     
 #clearning session
 @app.route("/clear_session",methods=['GET'])
@@ -93,7 +99,6 @@ def clear_session():
 @app.route("/history/<string:id>",methods=['GET'])
 def history(id):
     chat_history = session.get('chat_history',[])
-    print(id)
     save_conversation(session.get('conversation',{}))
     conversation_index = None
     for index,hist in enumerate(chat_history):
@@ -125,12 +130,13 @@ def save_conversation(conversation):
 def change_employment_template():
     user_message = request.json.get("message", "")
     contract_template = request.json.get('template',"")
+    contract_template = [line for line in contract_template.splitlines() if line.strip()]
+    contract_template = "\n".join(contract_template)
     if not user_message:
         return jsonify({"error": "Empty message"}), 400
     prompt = f''''
     query: {user_message}
-    contract template:
-    {contract_template}
+    contract_template: {contract_template}
     '''
     response = query_llm(prompt,mode='generate')
     #check if generation is required
@@ -152,12 +158,13 @@ def change_employment_template():
 def change_sales_template():
     user_message = request.json.get("message", "")
     contract_template = request.json.get('template',"")
+    contract_template = [line for line in contract_template.splitlines() if line.strip()]
+    contract_template = "\n".join(contract_template)
     if not user_message:
         return jsonify({"error": "Empty message"}), 400
     prompt = f''''
     query: {user_message}
-    contract template:
-    {contract_template}
+    contract_template: {contract_template}
     '''
     response = query_llm(prompt,mode='generate')
     #check if generation is required
@@ -178,15 +185,15 @@ def change_sales_template():
 @app.route('/api/service-contract',methods=['POST'])
 def change_service_template():
     user_message = request.json.get("message", "")
-    contract_template = request.json.get('template',"")
+    contract_template = str(request.json.get('template',""))
+    contract_template = [line for line in contract_template.splitlines() if line.strip()]
+    contract_template = "\n".join(contract_template)
     if not user_message:
         return jsonify({"error": "Empty message"}), 400
     prompt = f''''
     query: {user_message}
-    contract template:
-    {contract_template}
+    contract_template: {contract_template}
     '''
-    print(prompt)
     response = query_llm(prompt,mode='generate')
     #check if generation is required
     generated_filename = None
