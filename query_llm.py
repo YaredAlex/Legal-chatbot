@@ -57,7 +57,7 @@ def create_tool_node_with_fallback(tools: list):
 
 
 API_KEY = os.environ["COHERE_API_KEY"]
-cohere_llm = ChatCohere(cohere_api_key=API_KEY, temperature=0.5, max_tokens=500)
+cohere_llm = ChatCohere(cohere_api_key=API_KEY, temperature=0.5, max_tokens=1000)
 
 
 def build_executor(mode="analysis"):
@@ -71,10 +71,18 @@ def build_executor(mode="analysis"):
     else:
         tools = [generate_contract]
         system_prompt = (
-            "You are a smart and efficient contract generation assistant."
-            " Your responsibility is to generate legally sound and professional contracts by using pre-defined templates."
-            " Extract required fields from user inputs and render the final document clearly and accurately."
-        )
+    "You are a smart and efficient contract generation assistant. "
+    "You will be provided with two key inputs: a 'query:' which outlines the user's request, and a 'contract template:' "
+    "which is the base contract to be modified. "
+    "Your responsibility is to carefully analyze the query, extract all necessary information and instructions, "
+    "and modify the provided contract template to reflect the requested changes. "
+    "Ensure the final contract is legally sound, professionally formatted, and accurately incorporates the user's input. "
+    "Always maintain legal clarity, structure, and tone. "
+    "After presenting your explanation or confirmation message, respond with the fully updated contract under the key 'revised:'. "
+    "Do not include any additional commentary after 'revised:'."
+)
+
+
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompt + "\n\nCurrent user:\n<User>\n{user_info}\n</User>\nCurrent time: {time}.",),
