@@ -10,3 +10,9 @@ faiss-cpu
 uuid
 flask
 reportlab
+google-generativeai
+pytesseract 
+pillow
+PyPDF2
+docx2txt 
+textract
