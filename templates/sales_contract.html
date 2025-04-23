@@ -17,7 +17,8 @@
     </div>
     
     <div id="sales-editorTab" class="tab-content active">
-        <form id="salesContractForm" action="{{ url_for('submit_sales_contract') }}" method="post">
+        <div id="contractTemplate" data-type="sales-contract" class="contract-container" ></div>
+        <!-- <form id="salesContractForm" action="{{ url_for('submit_sales_contract') }}" method="post">
             <div class="contract-container sales-contract">
                 <h1>SALES AGREEMENT</h1>
                 
@@ -103,7 +104,7 @@
                 <button type="button" class="btn btn-primary preview-btn" data-contract="sales">Preview Contract</button>
                 <button type="submit" class="btn btn-success">Submit Contract</button>
             </div>
-        </form>
+        </form> -->
     </div>
     
     <div id="sales-templateTab" class="tab-content">

@@ -15,7 +15,8 @@
     </div>
     
     <div id="employment-editorTab" class="tab-content active">
-        <form id="employmentContractForm" action="{{ url_for('submit_employment_contract') }}" method="post">
+        <div id="contractTemplate" data-type="employment-contract" class="contract-container" ></div>
+        <!-- <form id="employmentContractForm" action="{{ url_for('submit_employment_contract') }}" method="post">
             <div class="contract-container employee-contract">
                 <h1>EMPLOYMENT AGREEMENT</h1>
                 
@@ -93,7 +94,7 @@
                 <button type="button" class="btn btn-primary preview-btn" data-contract="employment">Preview Contract</button>
                 <button type="submit" class="btn btn-success">Submit Contract</button>
             </div>
-        </form>
+        </form> -->
     </div>
     
     <div id="employment-templateTab" class="tab-content">
