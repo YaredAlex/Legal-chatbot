@@ -15,6 +15,18 @@ const getContractTemplate = (contractType) => {
       return serviceContractTemplate;
   }
 };
+const setContractTemplate = (contractType, contract) => {
+  switch (contractType) {
+    case "service-contract":
+      serviceContractTemplate = contract;
+    case "employment-contract":
+      employeeContractTemplate = contract;
+    case "sales-contract":
+      salesContractTemplate = contract;
+    default:
+      return;
+  }
+};
 const loadTemplateContent = (template) => {
   //check which contract is selected
   const contractContainer = document.getElementById("contractTemplate");
@@ -33,15 +45,15 @@ document.getElementById("chat-form").addEventListener("submit", function (e) {
   const message = inputField.value.trim();
   if (message === "") return;
   const contractContainer = document.getElementById("contractTemplate");
-  console.log(contractContainer);
+
   const contractType = contractContainer.getAttribute("data-type");
   appendMessage("user", message);
   inputField.value = "";
+
   //show loading
   loading_container.style.visibility = "visible";
   loading_container.style.opacity = "1";
   chatBoxContainerScrollTop();
-  // initialize template
 
   fetch(`/api/${contractType}`, {
     method: "POST",
@@ -62,6 +74,7 @@ document.getElementById("chat-form").addEventListener("submit", function (e) {
         appendMessage("assistant", messages[0], data.file_url);
         //modify contractTemplate
         loadTemplateContent(messages[1]);
+        setContractTemplate(contractType, messages[1]);
       } else {
         appendMessage("assistant", data.response, data.file_url);
       }
