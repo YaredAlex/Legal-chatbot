@@ -10,96 +10,128 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/loading_style.css')}}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/template_layout.css') }}">
-
+    
+    <style>
+        /* Main layout styles */
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+        
+        /* Left panel - Chat section */
+        .chat-panel {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #dee2e6;
+        }
+        
+        #chat-box-container, #chat-box-container-small {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            height: calc(100vh - 150px); /* Adjust based on your input area height */
+        }
+        
+        #input-area {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+        }
+        
+        /* Right panel - Editor section */
+        .editor-panel {
+            width: 50%;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 15px;
+        }
+    </style>
 </head>
 <body>
-    <div class="d-flex ">
-      <div class="col-6">
- <!-- Chat messages display -->
- {% if messages %}
- <div id="chat-box-container">
-   {%else%}
-   <div id="chat-box-container-small">
-   {%endif%}
-   <div id="chat-box" class="flex-grow-1">
-     <!-- Render messages passed from Flask -->
-     {% for message in messages %}
-       {% if message.sender == 'assistant' %}
-         <div class="message assistant-message">
-           <div class="msg-content">
-             <p class="mb-1">{{ message.text }}</p>
-             {% if message.file_url %}
-               <div src="{{ message.file_url }}"></div>
-             {% endif %}
-           </div>
-         </div>
-       {% else %}
-         <div class="message user-message">
-           <div class="msg-content">
-             <p class="mb-1">{{ message.text }}</p>
-           </div>
-         </div>
-       {% endif %}
-     {% endfor %}
-   </div>
-   <div id="loading_container">
-     <span class="loading_span"></span>
-     <span class="loading_span"></span>
-     <span class="loading_span"></span>
-   </div>
- </div>
- 
+    <div class="main-container">
+        <!-- Left panel: Chat section -->
+        <div class="chat-panel">
+            <!-- Chat messages display -->
+            {% if messages %}
+            <div id="chat-box-container">
+            {% else %}
+            <div id="chat-box-container-small">
+            {% endif %}
+                <div id="chat-box" class="flex-grow-1">
+                    <!-- Render messages passed from Flask -->
+                    {% for message in messages %}
+                        {% if message.sender == 'assistant' %}
+                            <div class="message assistant-message">
+                                <div class="msg-content">
+                                    <p class="mb-1">{{ message.text }}</p>
+                                    {% if message.file_url %}
+                                        <div src="{{ message.file_url }}"></div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="message user-message">
+                                <div class="msg-content">
+                                    <p class="mb-1">{{ message.text }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div id="loading_container">
+                    <span class="loading_span"></span>
+                    <span class="loading_span"></span>
+                    <span class="loading_span"></span>
+                </div>
+            </div>
 
-<div id="input-area" class="fixed-bottom">
+            <div id="input-area">
+                <form id="chat-form">
+                    <div class="chat-input-container">
+                        <textarea
+                            id="chat-input"
+                            name="message"
+                            class="form-control"
+                            placeholder="Ask about legal documents or generate contracts..."
+                            autocomplete="off"
+                        ></textarea>
 
-<form id="chat-form" >
-<div class="chat-input-container">
-<textarea
-id="chat-input"
-name="message"
-class="form-control"
-placeholder="Ask about legal documents or generate contracts..."
-autocomplete="off"
-></textarea>
+                        <div class="chat-actions">
+                            <div class="action-left">
+                                <!-- Action buttons can go here -->
+                            </div>
 
-<div class="chat-actions">
-<div class="action-left">
- <label class="btn btn-icon btn-attach" for="file-upload" type="button" title="Attach files">
-   <i class="fa-solid fa-plus"></i>
- </label>
- <input type="file" id="file-upload" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="d-none" />
- <button class="btn btn-mode" id="analysis-mode-btn" type="button" title="Analysis Mode">
-   <i class="fa-solid fa-lightbulb"></i>  Analyze
- </button>
-</div>
+                            <div class="action-right">
+                                <button class="btn btn-send" type="submit" form="chat-form">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<div class="action-right">
- <button class="btn btn-send" type="submit" form="chat-form">
-   <i class="fa-solid fa-paper-plane"></i>
- </button>
-</div>
-</div>
-
-<div id="attached-files" class="mt-2 d-none">
-<!-- Files will be displayed here dynamically -->
-</div>
-
-<div class="file-info text-muted small mt-2">
-<span id="file-count">No files attached</span>
-</div>
-</div>
-
-</form>
-</div>
-</div>
-        <!-- template editor -->
-        {%block content%}
-        {%endblock%}
+        <!-- Right panel: Editor section -->
+        <div class="editor-panel">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js"></script>
-    <script src="{{url_for('static',filename='js/constants.js')}}" ></script>
+    <script src="{{url_for('static',filename='js/constants.js')}}"></script>
     <script src="{{ url_for('static', filename='js/contract-scripts.js') }}"></script>
 </body>
 </html>
