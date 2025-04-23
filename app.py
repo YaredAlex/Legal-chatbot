@@ -60,7 +60,7 @@ def index():
     return render_template('index.html',messages=context.get('conversation'),history=chat_history)
 
 @app.route('/api/chat',methods=['GET','POST'])
-def generate():
+def chat_llm():
     user_message = request.json.get("message", "")
     if not user_message:
         return jsonify({"error": "Empty message"}), 400
@@ -121,6 +121,88 @@ def save_conversation(conversation):
         chat_history.insert(0,conversation)
     session['chat_history'] = chat_history
 
+@app.route('/api/employment-contract',methods=['POST'])
+def change_employment_template():
+    user_message = request.json.get("message", "")
+    contract_template = request.json.get('template',"")
+    if not user_message:
+        return jsonify({"error": "Empty message"}), 400
+    prompt = f''''
+    query: {user_message}
+    contract template:
+    {contract_template}
+    '''
+    response = query_llm(prompt,mode='generate')
+    #check if generation is required
+    generated_filename = None
+    _assistant = {"text":response,'sender':'assistant'}
+    if(generated_filename):
+        _assistant['file'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
+    # Append new conversation turn
+    conversation = session.get("conversation", {})
+    conversation['conversation'].append({"text": user_message, "sender": 'user'})
+    conversation['conversation'].append(_assistant)
+    session['conversation'] = conversation
+    _response = {"response": response}
+    if(generated_filename):
+        _response['file_url'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
+    return jsonify(_response)
+
+@app.route('/api/sales-contract',methods=['POST'])
+def change_sales_template():
+    user_message = request.json.get("message", "")
+    contract_template = request.json.get('template',"")
+    if not user_message:
+        return jsonify({"error": "Empty message"}), 400
+    prompt = f''''
+    query: {user_message}
+    contract template:
+    {contract_template}
+    '''
+    response = query_llm(prompt,mode='generate')
+    #check if generation is required
+    generated_filename = None
+    _assistant = {"text":response,'sender':'assistant'}
+    if(generated_filename):
+        _assistant['file'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
+    # Append new conversation turn
+    conversation = session.get("conversation", {})
+    conversation['conversation'].append({"text": user_message, "sender": 'user'})
+    conversation['conversation'].append(_assistant)
+    session['conversation'] = conversation
+    _response = {"response": response}
+    if(generated_filename):
+        _response['file_url'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
+    return jsonify(_response)
+
+@app.route('/api/service-contract',methods=['POST'])
+def change_service_template():
+    user_message = request.json.get("message", "")
+    contract_template = request.json.get('template',"")
+    if not user_message:
+        return jsonify({"error": "Empty message"}), 400
+    prompt = f''''
+    query: {user_message}
+    contract template:
+    {contract_template}
+    '''
+    print(prompt)
+    response = query_llm(prompt,mode='generate')
+    #check if generation is required
+    generated_filename = None
+    _assistant = {"text":response,'sender':'assistant'}
+    if(generated_filename):
+        _assistant['file'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
+    # Append new conversation turn
+    conversation = session.get("conversation", {})
+    conversation['conversation'].append({"text": user_message, "sender": 'user'})
+    conversation['conversation'].append(_assistant)
+    session['conversation'] = conversation
+    _response = {"response": response}
+    if(generated_filename):
+        _response['file_url'] = f"/{UPLOAD_FOLDER}/{generated_filename}"
+    return jsonify(_response)
+
 @app.route('/employment-contract')
 def employment_contract():
     # Check if there's a custom template
@@ -138,6 +220,7 @@ def service_contract():
     # Check if there's a custom template
     custom_template = get_custom_template('service')
     return render_template('service_contract.html', custom_template=custom_template)
+
 
 def get_custom_template(contract_type):
     """Retrieve custom template if it exists"""
