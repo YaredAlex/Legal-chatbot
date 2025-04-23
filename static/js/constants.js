@@ -1,4 +1,4 @@
-const serviceContractTemplate = `
+let serviceContractTemplate = `
 SERVICE AGREEMENT
 
 This Service Agreement (“Agreement”) is made and entered into on {{date}} by and between:
@@ -43,7 +43,7 @@ Signed:
 Date: ******\_\_\_\_****** Date: ******\_\_\_\_******
 `;
 
-const salesContractTemplate = `
+let salesContractTemplate = `
 SALES AGREEMENT
 
 This Sales Agreement (“Agreement”) is made and entered into on {{date}}, by and between:
@@ -88,7 +88,7 @@ Date: ******\_\_\_\_****** Date: ******\_\_\_\_******
 
 `;
 
-const employeeContractTemplate = ` 
+let employeeContractTemplate = ` 
 EMPLOYMENT AGREEMENT
 
 This Employment Agreement is entered into as of {{date}}, between:
