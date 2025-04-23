@@ -1,36 +1,76 @@
-// Handling text message submission
+const chatBoxContainerScrollTop = () => {
+  let chatBoxContainer = document.getElementById("chat-box-container");
+  if (chatBoxContainer)
+    chatBoxContainer.scrollTop = chatBoxContainer?.scrollHeight;
+};
+const getContractTemplate = (contractType) => {
+  switch (contractType) {
+    case "service-contract":
+      return serviceContractTemplate;
+    case "employment-contract":
+      return employeeContractTemplate;
+    case "sales-contract":
+      return salesContractTemplate;
+    default:
+      return serviceContractTemplate;
+  }
+};
+const loadTemplateContent = (template) => {
+  //check which contract is selected
+  const contractContainer = document.getElementById("contractTemplate");
+  // console.log(contractContainer);
+  const type = contractContainer.getAttribute("data-type");
+  if (template) contractContainer.innerHTML = marked.parse(template);
+  else contractContainer.innerHTML = marked.parse(getContractTemplate(type));
+};
+loadTemplateContent();
+
+//submition of request
 document.getElementById("chat-form").addEventListener("submit", function (e) {
   e.preventDefault();
   const inputField = document.getElementById("chat-input");
   const loading_container = document.getElementById("loading_container");
   const message = inputField.value.trim();
   if (message === "") return;
-
-  // Append user's message to chat display
+  const contractContainer = document.getElementById("contractTemplate");
+  console.log(contractContainer);
+  const contractType = contractContainer.getAttribute("data-type");
   appendMessage("user", message);
   inputField.value = "";
   //show loading
   loading_container.style.visibility = "visible";
   loading_container.style.opacity = "1";
+  chatBoxContainerScrollTop();
+  // initialize template
 
-  // fetch("/api/chat", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({ message: message }),
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Append the assistant's reply (text & optional audio) to the chat-box
-  //     console.log(data);
-  //     appendMessage("assistant", data.response, data.audio_url);
-  //   })
-  //   .catch((error) => console.error("Error:", error))
-  //   .finally(() => {
-  //     loading_container.style.visibility = "hidden";
-  //     loading_container.style.opacity = "0";
-  //   });
+  fetch(`/api/${contractType}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: message,
+      template: getContractTemplate(contractType),
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      //segment response if there
+      let messages = data.response.split("revised:");
+      console.log(messages);
+      if (messages.length > 1) {
+        appendMessage("assistant", messages[0], data.file_url);
+        //modify contractTemplate
+        loadTemplateContent(messages[1]);
+      } else {
+        appendMessage("assistant", data.response, data.file_url);
+      }
+    })
+    .catch((error) => console.error("Error:", error))
+    .finally(() => {
+      loading_container.style.visibility = "hidden";
+      loading_container.style.opacity = "0";
+    });
 });
 
 // Function to append a message to the chat box
@@ -40,16 +80,20 @@ function appendMessage(sender, text, audio_url = null) {
   messageDiv.classList.add("message");
   if (sender === "assistant") {
     messageDiv.classList.add("assistant-message");
-    messageDiv.innerHTML = `
-        <div class="msg-content">
-          <p class="mb-1">${text}</p>
-          ${
-            audio_url
-              ? `<audio controls src="${audio_url}" autoplay ></audio>`
-              : ""
-          }
-        </div>
-      `;
+    const messageContent = document.createElement("div");
+    messageContent.classList.add(["msg-content"]);
+    messageContent.innerHTML = marked.parse(text);
+    // messageDiv.innerHTML = `
+    //     <div class="msg-content">
+    //       <p class="mb-1">${text}</p>
+    //       ${
+    //         audio_url
+    //           ? `<audio controls src="${audio_url}" autoplay ></audio>`
+    //           : ""
+    //       }
+    //     </div>
+    //   `;
+    messageDiv.appendChild(messageContent);
   } else {
     messageDiv.classList.add("user-message");
     messageDiv.innerHTML = `
@@ -59,11 +103,10 @@ function appendMessage(sender, text, audio_url = null) {
       `;
   }
   chatBox.appendChild(messageDiv);
-  // Auto-scroll to the bottom of the chat box
-  chatBox.scrollTop = chatBox.scrollHeight;
 }
+//serviceContractTemplate, employeeContractTemplate, salesContractTempate
+console.log(serviceContractTemplate);
 
-// Store default templates in localStorage if not already present
 document.addEventListener("DOMContentLoaded", function () {
   // Check if we're on a specific contract page
   const employmentForm = document.getElementById("employmentContractForm");
