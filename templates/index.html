@@ -27,7 +27,7 @@
             <li class="history-item">
               <a href="{{url_for('history',id=h.id)}}" class="btn w-100 d-flex justify-content-start gap-2 align-items-center">
               <i class="fa-regular fa-file-lines me-2"></i>
-              <span>{{h.conversation[0]['text']}}</span>
+              <span class="conversation-title">{{h.conversation[0]['text']}}</span>
             </a>
             </li>
             {%endfor%}
@@ -134,7 +134,7 @@
         <label class="btn btn-icon btn-attach" for="file-upload" type="button" title="Attach files">
           <i class="fa-solid fa-plus"></i>
         </label>
-        <input type="file" id="file-upload" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="d-none" />
+        <input type="file" id="file-upload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="d-none" />
         <button class="btn btn-mode" id="analysis-mode-btn" type="button" title="Analysis Mode">
           <i class="fa-solid fa-lightbulb"></i>  Analyze
         </button>
@@ -147,8 +147,7 @@
       </div>
     </div>
     
-    <div id="attached-files" class="mt-2 d-none">
-      <!-- Files will be displayed here dynamically -->
+    <div id="attached-files" class="mt-2">
     </div>
     
     <div class="file-info text-muted small mt-2">
