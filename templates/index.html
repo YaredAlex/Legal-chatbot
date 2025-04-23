@@ -90,8 +90,8 @@
             {% for message in messages %}
               {% if message.sender == 'assistant' %}
                 <div class="message assistant-message">
-                  <div class="msg-content">
-                    <p class="mb-1">{{ message.text }}</p>
+                  <div class="msg-content mb-1">
+                    {{ message.text }}
                     {% if message.file_url %}
                       <div src="{{ message.file_url }}"></div>
                     {% endif %}
@@ -160,7 +160,7 @@
 </div>
     </div>
   </div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js"></script>
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
