@@ -61,16 +61,11 @@ function appendMessage(sender, text, audio_url = null) {
   messageDiv.classList.add("message");
   if (sender === "assistant") {
     messageDiv.classList.add("assistant-message");
-    messageDiv.innerHTML = `
-        <div class="msg-content">
-          <p class="mb-1">${text}</p>
-          ${
-            audio_url
-              ? `<audio controls src="${audio_url}" autoplay ></audio>`
-              : ""
-          }
-        </div>
-      `;
+    const messageContent = document.createElement("div");
+    messageContent.classList.add(["msg-content"]);
+    console.log(text);
+    messageContent.innerHTML = marked.parse(text);
+    messageDiv.appendChild(messageContent);
   } else {
     messageDiv.classList.add("user-message");
     messageDiv.innerHTML = `
@@ -81,3 +76,17 @@ function appendMessage(sender, text, audio_url = null) {
   }
   chatBox.appendChild(messageDiv);
 }
+
+//forma message
+const formatMessages = () => {
+  const messageContent = document.querySelectorAll(".msg-content");
+  if (messageContent) {
+    messageContent.forEach(function (element) {
+      const content = element.textContent || element.innerText;
+      element.innerHTML = marked.parse(content);
+    });
+  }
+  console.log("message formate");
+};
+console.log("loaded script");
+document.addEventListener("DOMContentLoaded", formatMessages);
